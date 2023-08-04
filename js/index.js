@@ -1,218 +1,141 @@
-// console.log("hello");
-// while(1){
-// var a=Math.floor((Math.random()*9)+1)
-// console.log(a);
-// }
-
-function playy() {
-    let audio = new Audio("../audio/شربتها يا كروديا.mp3");
+function pcWin() {
+    let audio = new Audio("test.mp3");
     audio.play();
 }
-function playyy() {
-    let audio = new Audio("../audio/y2mate.is - انت عبيط هل انت عبيط-n1IGjICMThc-192k-1691064544.mp3");
+function winnerSound() {
+    let audio = new Audio("1.mp3");
     audio.play();
 }
-function playyyy() {
-    let audio = new Audio("../audio/_from165.911823s_to168.244754s.mp3");
+function beatPc() {
+    let audio = new Audio("2.mp3");
     audio.play();
 }
-// playy();
 let l = '';
 function single(i) {
-    // console.log(l)
     l = i;
-    // console.log(l)
     color()
-    // return l;
 }
 function color() {
     console.log(l);
     if (l === 'two') {
-
         document.getElementById('two').style.backgroundColor = '#4499e3';
         document.getElementById('one').style.backgroundColor = '#44BEE3';
-
     }
     else if (l === 'one') {
-
         document.getElementById('one').style.backgroundColor = '#4499e3';
         document.getElementById('two').style.backgroundColor = '#44BEE3';
     }
 }
-
-let t = 'x';
-let tt = 0;
+let turn = 'x';
+let counter = 0;
 let x = [0, 0, 0, 0, 0, 0, 0, 0, 0], o = [0, 0, 0, 0, 0, 0, 0, 0, 0], id;
 let h = document.getElementById('head');
 function Boox(i) {
     if (l === 'two') {
         id = Number(i) - 1;
         let element = document.getElementById(i);
-
-        if (t === 'x' && element.innerHTML == '') {
-            element.innerHTML = '<h2 class="text-center fw-bolder fa-3x mt-2 text-capitalize">x</h2>';
-            h.innerHTML = '<h1 class="text-center text-uppercase ">O turn</h1>';
-            t = 'o';
-            x[id] = 1;
-            tt++;
+        doTurn('x', x, element);
+        if (checkWinner(x)){
+            setWinner('x');
+winnerSound();
         }
-        if (t === 'o' && element.innerHTML == '') {
-            element.innerHTML = '<h2 class="text-center fw-bolder fa-3x mt-2 text-capitalize">o</h2>';
-            h.innerHTML = '<h1 class="text-center text-uppercase ">X turn</h1>';
-            o[id] = 1;
-            t = 'x';
-            tt++;
+        doTurn('o', o, element);
+        if (checkWinner(o)){
+            winnerSound();
+            setWinner('o');
         }
-        if (
-            (x[0] == 1 && x[1] == 1 && x[2] == 1) ||
-            (x[3] == 1 && x[4] == 1 && x[5] == 1) ||
-            (x[6] == 1 && x[7] == 1 && x[8] == 1) ||
-            (x[0] == 1 && x[3] == 1 && x[6] == 1) ||
-            (x[1] == 1 && x[4] == 1 && x[7] == 1) ||
-            (x[2] == 1 && x[5] == 1 && x[8] == 1) ||
-            (x[0] == 1 && x[4] == 1 && x[8] == 1) ||
-            (x[2] == 1 && x[4] == 1 && x[6] == 1)) {
-            tt = 0;
-            h.innerHTML = '<h1 class="text-center text-uppercase ">X WINNER</h1>';
-            playy();
-
-            setTimeout(() => {
-                h.innerHTML = '<h1 class="text-center text-uppercase ">X O GAME</h1>';
-                x = [0, 0, 0, 0, 0, 0, 0, 0, 0]; o = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-                for (let i = 1; i <= 9; i++) {
-                    document.getElementById(`${i}`).innerHTML = '';
-                }
-            }, 3000)
-        }
-        if (
-            (o[0] == 1 && o[1] == 1 && o[2] == 1) ||
-            (o[3] == 1 && o[4] == 1 && o[5] == 1) ||
-            (o[6] == 1 && o[7] == 1 && o[8] == 1) ||
-            (o[0] == 1 && o[3] == 1 && o[6] == 1) ||
-            (o[1] == 1 && o[4] == 1 && o[7] == 1) ||
-            (o[2] == 1 && o[5] == 1 && o[8] == 1) ||
-            (o[0] == 1 && o[4] == 1 && o[8] == 1) ||
-            (o[2] == 1 && o[4] == 1 && o[6] == 1)) {
-            tt = 0;
-            h.innerHTML = '<h1 class="text-center text-uppercase ">O WINNER</h1>';
-            playy();
-
-            setTimeout(() => {
-                h.innerHTML = '<h1 class="text-center text-uppercase ">X O GAME</h1>';
-                x = [0, 0, 0, 0, 0, 0, 0, 0, 0]; o = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-                for (let i = 1; i <= 9; i++) {
-                    document.getElementById(`${i}`).innerHTML = '';
-                }
-            }, 3000)
-        }
-        if (tt == 9) {
-            playyy();
-            tt = 0;
-            h.innerHTML = '<h1 class="text-center text-uppercase ">DRAW</h1>';
-            setTimeout(() => {
-                h.innerHTML = '<h1 class="text-center text-uppercase ">X O GAME</h1>';
-                x = [0, 0, 0, 0, 0, 0, 0, 0, 0]; o = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-                for (let i = 1; i <= 9; i++) {
-                    document.getElementById(`${i}`).innerHTML = '';
-                }
-            }, 3000)
-        }
-
-
+        checkDraw();
     }
     else if (l === 'one') {
         id = Number(i) - 1;
         let element = document.getElementById(i);
-
-        if (t === 'x' && element.innerHTML == '') {
-            element.innerHTML = '<h2 class="text-center fw-bolder fa-3x mt-2 text-capitalize">x</h2>';
-            h.innerHTML = '<h1 class="text-center text-uppercase ">O turn</h1>';
-            t = 'o';
-            x[id] = 1;
-            tt++;
-        }
-        else if (t === 'o') {
-            while (1) {
-
-                var a = Math.floor((Math.random() * 9) + 1)
-                id = Number(a) - 1;
-                console.log(a);
-                element = document.getElementById(a);
-                // console.log(element);
-                if (element.innerHTML == '') {
-
-                    element.innerHTML = '<h2 class="text-center fw-bolder fa-3x mt-2 text-capitalize">o</h2>';
-                    h.innerHTML = '<h1 class="text-center text-uppercase ">X turn</h1>';
-                    o[id] = 1;
-                    t = 'x';
-                    tt++;
-                    break;
-                }
+        doTurn('x', x, element);
+        if (checkWinner(x)) {
+            beatPc();
+            setWinner('x');
+        } else {
+            if (counter <= 8) {
+                doPcTurn()
             }
-            // else{
-            //     var a = Math.floor((Math.random() * 9) + 1)
-            //     console.log(a);
-            //     element = document.getElementById(a);
-            //     // console.log(element);
-
-            // }
-        }
-        if (
-            (x[0] == 1 && x[1] == 1 && x[2] == 1) ||
-            (x[3] == 1 && x[4] == 1 && x[5] == 1) ||
-            (x[6] == 1 && x[7] == 1 && x[8] == 1) ||
-            (x[0] == 1 && x[3] == 1 && x[6] == 1) ||
-            (x[1] == 1 && x[4] == 1 && x[7] == 1) ||
-            (x[2] == 1 && x[5] == 1 && x[8] == 1) ||
-            (x[0] == 1 && x[4] == 1 && x[8] == 1) ||
-            (x[2] == 1 && x[4] == 1 && x[6] == 1)) {
-            h.innerHTML = '<h1 class="text-center text-uppercase ">X WINNER</h1>';
-            tt = 0;
-            t = 'x';
-            playyyy();
             setTimeout(() => {
-                h.innerHTML = '<h1 class="text-center text-uppercase ">X O GAME</h1>';
-                x = [0, 0, 0, 0, 0, 0, 0, 0, 0]; o = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-                for (let i = 1; i <= 9; i++) {
-                    document.getElementById(`${i}`).innerHTML = '';
+                if (checkWinner(o)) {
+                    setWinner('o');
+                    pcWin();
                 }
-            }, 3000)
-        }
-        if (
-            (o[0] == 1 && o[1] == 1 && o[2] == 1) ||
-            (o[3] == 1 && o[4] == 1 && o[5] == 1) ||
-            (o[6] == 1 && o[7] == 1 && o[8] == 1) ||
-            (o[0] == 1 && o[3] == 1 && o[6] == 1) ||
-            (o[1] == 1 && o[4] == 1 && o[7] == 1) ||
-            (o[2] == 1 && o[5] == 1 && o[8] == 1) ||
-            (o[0] == 1 && o[4] == 1 && o[8] == 1) ||
-            (o[2] == 1 && o[4] == 1 && o[6] == 1)) {
-            tt = 0;playy();
 
-            h.innerHTML = '<h1 class="text-center text-uppercase ">O WINNER</h1>';
-            t = 'x';
+                checkDrawForSinglePlayer();
+            }, 600);
+
+        }
+        checkDrawForSinglePlayer();
+    }
+}
+function checkWinner(x) {
+    if ((x[0] == 1 && x[1] == 1 && x[2] == 1) ||
+        (x[3] == 1 && x[4] == 1 && x[5] == 1) ||
+        (x[6] == 1 && x[7] == 1 && x[8] == 1) ||
+        (x[0] == 1 && x[3] == 1 && x[6] == 1) ||
+        (x[1] == 1 && x[4] == 1 && x[7] == 1) ||
+        (x[2] == 1 && x[5] == 1 && x[8] == 1) ||
+        (x[0] == 1 && x[4] == 1 && x[8] == 1) ||
+        (x[2] == 1 && x[4] == 1 && x[6] == 1))
+        return true;
+    else
+        return false;
+}
+function doTurn(player, playerArray, element) {
+    if (turn === `${player}` && element.innerHTML == '') {
+        element.innerHTML = `<h2 class="text-center fw-bolder fa-3x mt-2 text-capitalize">${player}</h2>`;
+        h.innerHTML = `<h1 class="text-center text-uppercase ">${player == 'x' ? 'o' : 'x'} turn</h1>`;
+        turn = `${player == 'x' ? 'o' : 'x'}`;
+        playerArray[id] = 1;
+        counter++;
+    }
+}
+function setWinner(player) {
+    h.innerHTML = `<h1 class="text-center text-uppercase ">${player} WINNER</h1>`;
+    rest();
+}
+function checkDraw() {
+    
+    if (counter == 9) {
+        pcWin();
+        h.innerHTML = '<h1 class="text-center text-uppercase ">DRAW</h1>';
+        rest();
+    }
+}
+function rest() {
+    counter = 0;
+    setTimeout(() => {
+        h.innerHTML = '<h1 class="text-center text-uppercase ">X O GAME</h1>';
+        x = [0, 0, 0, 0, 0, 0, 0, 0, 0]; o = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        for (let i = 1; i <= 9; i++) {
+            document.getElementById(`${i}`).innerHTML = '';
+        }
+    }, 3000)
+}
+function checkDrawForSinglePlayer() {
+    checkDraw();
+    turn = 'x';
+}
+function doPcTurn() {
+    var counter2 = 0;
+    while (counter2 < 10000) {
+        counter2++
+        console.log(counter2);
+        var a = Math.floor((Math.random() * 8) + 1)
+        var id = Number(a) - 1;
+        console.log(a);
+        var element = document.getElementById(a);
+        if (element.innerHTML == '') {
             setTimeout(() => {
-                h.innerHTML = '<h1 class="text-center text-uppercase ">X O GAME</h1>';
-                x = [0, 0, 0, 0, 0, 0, 0, 0, 0]; o = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-                for (let i = 1; i <= 9; i++) {
-                    document.getElementById(`${i}`).innerHTML = '';
-                }
-            }, 3000)
+                element.innerHTML = '<h2 class="text-center fw-bolder fa-3x mt-2 text-capitalize">o</h2>';
+                h.innerHTML = '<h1 class="text-center text-uppercase ">X turn</h1>';
+                o[id] = 1;
+                turn = 'x';
+                counter++;
+            }, 500);
+            break;
         }
-        if (tt == 9) {
-            playyy();
-            tt = 0;
-            t = 'x';
-            h.innerHTML = '<h1 class="text-center text-uppercase ">DRAW</h1>';
-            setTimeout(() => {
-                h.innerHTML = '<h1 class="text-center text-uppercase ">X O GAME</h1>';
-                x = [0, 0, 0, 0, 0, 0, 0, 0, 0]; o = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-                for (let i = 1; i <= 9; i++) {
-                    document.getElementById(`${i}`).innerHTML = '';
-                }
-            }, 3000)
-        }
-
-
     }
 }
